@@ -250,7 +250,7 @@ h1 {
   display: grid;
   grid-template-columns: 190px minmax(360px, 1fr) 170px;
   gap: 24px;
-  min-height: 540px;
+  min-height: 640px;
   padding-top: 28px;
 }
 
@@ -293,7 +293,7 @@ h1 {
 
 .thread-board {
   position: relative;
-  min-height: 520px;
+  min-height: 620px;
   overflow: hidden;
 }
 
@@ -314,13 +314,13 @@ h1 {
 .phrase-card {
   position: absolute;
   transform: translate(-50%, -50%) rotate(var(--tilt, -1deg));
-  width: min(176px, 34%);
+  width: min(162px, 31%);
   border: 0;
   border-radius: 2px;
   color: oklch(0.20 0.02 70);
   background: oklch(0.91 0.035 82);
   box-shadow: 0 10px 24px oklch(0 0 0 / 0.22);
-  padding: 12px;
+  padding: 10px;
   cursor: pointer;
 }
 
@@ -344,15 +344,16 @@ h1 {
 }
 
 .phrase-card span {
-  font-size: clamp(15px, 1.22vw, 20px);
+  font-size: clamp(14px, 1.08vw, 18px);
   line-height: 1.15;
 }
 
 .phrase-card em {
-  margin-top: 8px;
+  margin-top: 6px;
   color: var(--burgundy);
-  font-size: 13px;
+  font-size: 12px;
   font-style: normal;
+  line-height: 1.18;
 }
 
 .timeline {
@@ -408,6 +409,16 @@ h1 {
 
 .sources-hidden .board-grid {
   grid-template-columns: minmax(360px, 1fr) 170px;
+}
+
+.session-anchors {
+  position: relative;
+  height: 0;
+}
+
+.session-anchors span {
+  position: absolute;
+  top: -76px;
 }
 
 .movements,
@@ -707,6 +718,98 @@ h1 {
   line-height: 1.32;
 }
 
+.teaching-frame {
+  margin-top: 34px;
+  border: 1px solid oklch(0.72 0.02 85 / 0.25);
+  border-radius: 8px;
+  background: oklch(0.15 0.012 80);
+  padding: 22px;
+}
+
+.teaching-frame span,
+.teaching-frame strong {
+  display: block;
+}
+
+.teaching-frame span {
+  color: var(--brass);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.teaching-frame strong {
+  margin-top: 8px;
+  color: var(--paper);
+  font-size: clamp(24px, 3vw, 42px);
+  font-weight: 500;
+  line-height: 1.12;
+}
+
+.sketch-strip,
+.body-strip {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.sketch-strip {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.body-strip {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.sketch-card,
+.body-card {
+  border: 1px solid oklch(0.72 0.02 85 / 0.25);
+  border-radius: 7px;
+  background: oklch(0.18 0.016 80);
+  padding: 12px;
+}
+
+.sketch-card span,
+.sketch-card strong,
+.sketch-card em,
+.body-card span,
+.body-card strong,
+.body-card em {
+  display: block;
+}
+
+.sketch-card span,
+.body-card span,
+.category-card span,
+.term-ref {
+  color: var(--brass);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sketch-card strong,
+.body-card strong {
+  margin-top: 5px;
+  color: var(--paper);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.sketch-card em,
+.body-card em {
+  margin-top: 6px;
+  color: oklch(0.82 0.018 86);
+  font-size: 14px;
+  font-style: normal;
+  line-height: 1.25;
+}
+
+.sketch-card:last-child {
+  border-color: var(--brass);
+  background: oklch(0.28 0.04 70);
+}
+
 .flow-strip {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -725,6 +828,7 @@ h1 {
 .flow-card span,
 .flow-card strong,
 .flow-card em,
+.category-card span,
 .category-card strong {
   display: block;
 }
@@ -768,7 +872,7 @@ h1 {
 
 .term-strip {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   margin-top: 12px;
 }
@@ -791,11 +895,13 @@ h1 {
 
 .term-card span,
 .term-card strong,
-.term-card em {
+.term-card em,
+.term-card small {
   display: block;
 }
 
-.term-card span {
+.term-card .greek {
+  margin-top: 7px;
   color: var(--chalk);
   font-size: 18px;
   line-height: 1.1;
@@ -816,6 +922,23 @@ h1 {
   line-height: 1.28;
 }
 
+.term-card small {
+  max-height: 0;
+  overflow: hidden;
+  color: oklch(0.91 0.018 86);
+  font-size: 14px;
+  line-height: 1.35;
+  opacity: 0;
+  transition: max-height 180ms ease, margin-top 180ms ease, opacity 180ms ease;
+}
+
+.term-card.active small,
+.term-card:focus-visible small {
+  max-height: 120px;
+  margin-top: 10px;
+  opacity: 1;
+}
+
 .category-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -824,6 +947,7 @@ h1 {
 }
 
 .category-card strong {
+  margin-top: 5px;
   color: var(--paper);
   font-size: 17px;
 }
@@ -1043,6 +1167,8 @@ pre {
   .movement-grid,
   .mark-list,
   .panel-beats,
+  .sketch-strip,
+  .body-strip,
   .flow-strip,
   .term-strip,
   .category-strip,
@@ -1106,7 +1232,7 @@ pre {
   }
 
   .phrase-card {
-    width: 172px;
+    width: 150px;
   }
 
   .movement-card,

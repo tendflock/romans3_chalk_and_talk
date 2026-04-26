@@ -144,24 +144,46 @@ window.CHALK_DATA = {
     }
   ],
 
+  teachingSketch: [
+    { ref: "v.9", title: "The charge", text: "all under sin" },
+    { ref: "vv.10-12", title: "The indictment", text: "none righteous" },
+    { ref: "vv.13-18", title: "The evidence", text: "whole-person corruption" },
+    { ref: "v.19", title: "The verdict", text: "every mouth stopped" },
+    { ref: "v.20", title: "The conclusion", text: "law exposes; works cannot justify" },
+    { ref: "v.21", title: "The turn", text: "But now..." }
+  ],
+
+  bodyParts: [
+    { part: "Throat", image: "death / decay", ref: "3:13a" },
+    { part: "Tongue", image: "deceit", ref: "3:13b" },
+    { part: "Lips", image: "poison", ref: "3:13c" },
+    { part: "Mouth", image: "cursing / bitterness", ref: "3:14" },
+    { part: "Feet", image: "violence", ref: "3:15" },
+    { part: "Paths", image: "ruin / no peace", ref: "3:16-17" },
+    { part: "Eyes", image: "no fear of God", ref: "3:18" }
+  ],
+
   keyTerms: [
-    { greek: "ὑφ᾽ ἁμαρτίαν", gloss: "under sin", note: "slavery, power, guilt, condemnation" },
-    { greek: "οὐκ ἔστιν", gloss: "there is not", note: "repeated negation hammering the no-exceptions point" },
-    { greek: "οὐδὲ εἷς", gloss: "not even one", note: "absolute universality" },
-    { greek: "δικαιωθήσεται", gloss: "will be justified", note: "courtroom/legal declaration" },
-    { greek: "ὑπόδικος", gloss: "answerable to God", note: "liable before the judge" },
-    { greek: "ἐξ ἔργων νόμου", gloss: "by works of law", note: "no human obedience can establish righteous standing" },
-    { greek: "ἐπίγνωσις ἁμαρτίας", gloss: "knowledge of sin", note: "the law reveals and names sin" }
+    { greek: "ὑφ᾽ ἁμαρτίαν", gloss: "under sin", ref: "3:9", note: "slavery, power, guilt, condemnation", cue: "Sin is not only acts committed; it is a realm and ruler apart from Christ." },
+    { greek: "οὐκ ἔστιν", gloss: "there is not", ref: "3:10-12", note: "repeated negation hammering the no-exceptions point", cue: "Let the repetition do its work: Paul removes every proposed exception." },
+    { greek: "οὐδὲ εἷς", gloss: "not even one", ref: "3:10, 12", note: "absolute universality", cue: "This is the God’s-eye verdict on natural humanity, not a comparison between better and worse sinners." },
+    { greek: "δίκαιος", gloss: "righteous", ref: "3:10", note: "the status nobody possesses in Adam", cue: "Romans 3:21-26 will answer the lack named here." },
+    { greek: "ὑπόδικος", gloss: "answerable to God", ref: "3:19", note: "liable before the judge", cue: "The courtroom reaches silence before it reaches relief." },
+    { greek: "δικαιωθήσεται", gloss: "will be justified", ref: "3:20", note: "courtroom/legal declaration", cue: "Justification is the category works cannot secure and Christ will supply." },
+    { greek: "πᾶσα σάρξ", gloss: "all flesh", ref: "3:20", note: "every human being before God", cue: "No covenant badge, moral record, or cultural standing creates an escape hatch." },
+    { greek: "ἐξ ἔργων νόμου", gloss: "by works of law", ref: "3:20", note: "no human obedience can establish righteous standing", cue: "The law can prosecute sinners; it cannot become their savior." },
+    { greek: "ἐπίγνωσις ἁμαρτίας", gloss: "knowledge of sin", ref: "3:20", note: "the law reveals and names sin", cue: "The law gives diagnosis, not deliverance." }
   ],
 
   categories: [
-    { title: "Hamartiology", text: "Sin as guilt, corruption, slavery, and rebellion." },
-    { title: "Judgment", text: "God's righteousness means he judges truly." },
-    { title: "Anthropology", text: "Mankind naturally, apart from grace." },
-    { title: "Law", text: "The law exposes sin but cannot justify sinners." },
-    { title: "Justification", text: "Denied by works in Romans 3:20; supplied by Christ in Romans 3:21-26." },
-    { title: "Union / Representation", text: "All humanity in Adam is condemned; Christ is the only righteous one." },
-    { title: "Christology", text: "Christ as the only exception, tested one, advocate, and righteousness." }
+    { title: "Hamartiology", ref: "3:9-18", text: "Sin as guilt, corruption, slavery, and rebellion." },
+    { title: "Judgment", ref: "3:19", text: "God's righteousness means he judges truly and silences every defense." },
+    { title: "Anthropology", ref: "3:10-18", text: "Mankind naturally, apart from grace: mind, will, speech, path, and worship disordered." },
+    { title: "Law", ref: "3:19-20", text: "The law exposes sin but cannot justify sinners." },
+    { title: "Justification", ref: "3:20-26", text: "Denied by works in Romans 3:20; supplied by Christ in Romans 3:21-26." },
+    { title: "Union / Representation", ref: "Adam / Christ", text: "All humanity in Adam is condemned; Christ is the only righteous one." },
+    { title: "Christology", ref: "3:21-26", text: "Christ as the only exception, tested one, advocate, and righteousness." },
+    { title: "Redemptive Turn", ref: "3:21", text: "But now: the verdict prepares the room to hear righteousness revealed apart from law." }
   ],
 
   equippingBlanks: [
@@ -283,16 +305,19 @@ window.CHALK_DATA = {
     { id: "ps140", label: "Psalm 140", ref: "Rom 3:13b", color: "oklch(0.66 0.09 294)" },
     { id: "ps10", label: "Psalm 10", ref: "Rom 3:14", color: "oklch(0.70 0.09 78)" },
     { id: "isa59", label: "Isaiah 59", ref: "Rom 3:15-17", color: "oklch(0.66 0.09 344)" },
-    { id: "ps36", label: "Psalm 36", ref: "Rom 3:18", color: "oklch(0.69 0.08 158)" }
+    { id: "ps36", label: "Psalm 36", ref: "Rom 3:18", color: "oklch(0.69 0.08 158)" },
+    { id: "law", label: "Law / Verdict", ref: "Rom 3:19-20", color: "oklch(0.71 0.08 88)" }
   ],
 
   boardPhrases: [
-    { id: "p1", source: "ps14", ref: "3:10", text: "οὐκ ἔστιν δίκαιος", en: "No one righteous", x: 43, y: 18 },
-    { id: "p2", source: "ps14", ref: "3:11", text: "οὐκ ἔστιν ὁ συνίων", en: "No one understands", x: 73, y: 35 },
-    { id: "p3", source: "ps5", ref: "3:13", text: "τάφος ἀνεῳγμένος", en: "An opened grave", x: 43, y: 51 },
-    { id: "p4", source: "ps10", ref: "3:14", text: "ἀρᾶς καὶ πικρίας", en: "Cursing and bitterness", x: 73, y: 67 },
-    { id: "p5", source: "isa59", ref: "3:15-17", text: "ὁδὸν εἰρήνης οὐκ ἔγνωσαν", en: "No way of peace", x: 43, y: 84 },
-    { id: "p6", source: "ps36", ref: "3:18", text: "οὐκ ἔστιν φόβος θεοῦ", en: "No fear of God", x: 73, y: 89 }
+    { id: "p1", source: "ps14", ref: "3:10", text: "οὐκ ἔστιν δίκαιος", en: "No one righteous", x: 42, y: 17 },
+    { id: "p2", source: "ps14", ref: "3:11", text: "οὐκ ἔστιν ὁ συνίων", en: "No one understands", x: 71, y: 31 },
+    { id: "p3", source: "ps5", ref: "3:13", text: "τάφος ἀνεῳγμένος", en: "An opened grave", x: 42, y: 45 },
+    { id: "p4", source: "ps10", ref: "3:14", text: "ἀρᾶς καὶ πικρίας", en: "Cursing and bitterness", x: 71, y: 59 },
+    { id: "p5", source: "isa59", ref: "3:15-17", text: "ὁδὸν εἰρήνης οὐκ ἔγνωσαν", en: "No way of peace", x: 42, y: 70 },
+    { id: "p6", source: "ps36", ref: "3:18", text: "οὐκ ἔστιν φόβος θεοῦ", en: "No fear of God", x: 71, y: 76 },
+    { id: "p7", source: "law", ref: "3:19", text: "πᾶν στόμα φραγῇ", en: "Every mouth stopped", x: 42, y: 87 },
+    { id: "p8", source: "law", ref: "3:20", text: "ἐπίγνωσις ἁμαρτίας", en: "Knowledge of sin", x: 71, y: 88 }
   ],
 
   handout: `Accept the guilty verdict of sinner and flee to Christ the only righteous one.

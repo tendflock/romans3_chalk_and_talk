@@ -766,8 +766,11 @@ h1 {
 .body-card {
   border: 1px solid oklch(0.72 0.02 85 / 0.25);
   border-radius: 7px;
+  color: var(--paper);
   background: oklch(0.18 0.016 80);
   padding: 12px;
+  text-align: left;
+  cursor: pointer;
 }
 
 .sketch-card span,
@@ -810,6 +813,22 @@ h1 {
   background: oklch(0.28 0.04 70);
 }
 
+.sketch-card:hover,
+.sketch-card:focus-visible,
+.sketch-card.active,
+.flow-card:hover,
+.flow-card:focus-visible,
+.flow-card.active,
+.body-card:hover,
+.body-card:focus-visible,
+.body-card.active,
+.category-card:hover,
+.category-card:focus-visible,
+.category-card.active {
+  border-color: var(--brass);
+  background: oklch(0.26 0.026 78);
+}
+
 .flow-strip {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -821,8 +840,11 @@ h1 {
 .category-card {
   border: 1px solid oklch(0.72 0.02 85 / 0.25);
   border-radius: 7px;
+  color: var(--paper);
   background: oklch(0.18 0.016 80);
   padding: 14px;
+  text-align: left;
+  cursor: pointer;
 }
 
 .flow-card span,

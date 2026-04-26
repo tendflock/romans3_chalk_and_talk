@@ -138,31 +138,31 @@ function renderTeachingTopics() {
     </div>
     <div class="sketch-strip">
       ${D.teachingSketch.map((step) => `
-        <article class="sketch-card">
+        <button class="sketch-card" type="button">
           <span>${step.ref}</span>
           <strong>${step.title}</strong>
           <em>${step.text}</em>
-        </article>
+        </button>
       `).join("")}
     </div>
     <div class="flow-strip">
       ${D.teachingFlow.map((step, index) => `
-        <article class="flow-card">
+        <button class="flow-card" type="button">
           <span>${step.ref}</span>
           <strong>${index + 1}. ${step.title}</strong>
           <em>${step.label}</em>
           <p>${step.body}</p>
-        </article>
+        </button>
       `).join("")}
     </div>
     <div class="mini-heading">Body-parts evidence</div>
     <div class="body-strip">
       ${D.bodyParts.map((item) => `
-        <article class="body-card">
+        <button class="body-card" type="button">
           <span>${item.ref}</span>
           <strong>${item.part}</strong>
           <em>${item.image}</em>
-        </article>
+        </button>
       `).join("")}
     </div>
     <div class="mini-heading">Key words and phrases</div>
@@ -180,11 +180,11 @@ function renderTeachingTopics() {
     <div class="mini-heading">Theological categories</div>
     <div class="category-strip">
       ${D.categories.map((cat) => `
-        <article class="category-card">
+        <button class="category-card" type="button">
           <span>${cat.ref}</span>
           <strong>${cat.title}</strong>
           <p>${cat.text}</p>
-        </article>
+        </button>
       `).join("")}
     </div>
     <div class="mini-heading">Romans3 lecture modules</div>
@@ -268,6 +268,8 @@ function wireInteractions() {
     if (topic) topic.classList.toggle("active");
     const term = event.target.closest(".term-card");
     if (term) term.classList.toggle("active");
+    const teachingCard = event.target.closest(".sketch-card, .flow-card, .body-card, .category-card");
+    if (teachingCard) teachingCard.classList.toggle("active");
   });
 
   $("#mark-controls").addEventListener("click", (event) => {

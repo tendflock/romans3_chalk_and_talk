@@ -8,7 +8,7 @@ function renderSteps() {
     <a class="step-pill" href="#${block.id}">
       <span>${String(index + 1).padStart(2, "0")}</span>
       <strong>${block.label}</strong>
-      <em>${block.time}</em>
+      <em>${block.subtitle}</em>
     </a>
   `).join("");
 }
@@ -45,7 +45,7 @@ function renderTimeline() {
     <li>
       <span>${String(index + 1).padStart(2, "0")}</span>
       <strong>${block.label}</strong>
-      <em>${block.time}</em>
+      <em>${block.subtitle}</em>
     </li>
   `).join("");
 }
@@ -93,9 +93,9 @@ function renderMarks(active = "all") {
 
 function renderSessionTabs(activeId = D.blocks[0].id) {
   $("#session-tabs").innerHTML = D.blocks.map((block) => `
-    <button class="${block.id === activeId ? "active" : ""}" type="button" data-block="${block.id}" id="${block.id}">
+    <button class="${block.id === activeId ? "active" : ""}" type="button" data-block="${block.id}">
       <span>${block.label}</span>
-      <em>${block.time}</em>
+      <em>${block.subtitle}</em>
     </button>
   `).join("");
   renderSessionPanel(activeId);
@@ -110,7 +110,7 @@ function renderSessionPanel(activeId) {
   if (activeId === "missions") interactive = renderQuestionDeck(D.missionsQuestions, "Missions questions");
 
   $("#session-panel").innerHTML = `
-    <div class="panel-kicker">${block.time}</div>
+    <div class="panel-kicker">${block.label}</div>
     <h3>${block.title}</h3>
     <p class="panel-aim">${block.aim}</p>
     <ul class="panel-beats">
@@ -126,6 +126,36 @@ function renderSessionPanel(activeId) {
 
 function renderTeachingTopics() {
   return `
+    <div class="flow-strip">
+      ${D.teachingFlow.map((step, index) => `
+        <article class="flow-card">
+          <span>${step.ref}</span>
+          <strong>${index + 1}. ${step.title}</strong>
+          <em>${step.label}</em>
+          <p>${step.body}</p>
+        </article>
+      `).join("")}
+    </div>
+    <div class="mini-heading">Key words and phrases</div>
+    <div class="term-strip">
+      ${D.keyTerms.map((term) => `
+        <button class="term-card" type="button">
+          <span class="greek">${term.greek}</span>
+          <strong>${term.gloss}</strong>
+          <em>${term.note}</em>
+        </button>
+      `).join("")}
+    </div>
+    <div class="mini-heading">Theological categories</div>
+    <div class="category-strip">
+      ${D.categories.map((cat) => `
+        <article class="category-card">
+          <strong>${cat.title}</strong>
+          <p>${cat.text}</p>
+        </article>
+      `).join("")}
+    </div>
+    <div class="mini-heading">Romans3 lecture modules</div>
     <div class="topic-grid">
       ${D.teachingTopics.map((topic) => `
         <button class="topic-card" type="button">

@@ -707,6 +707,127 @@ h1 {
   line-height: 1.32;
 }
 
+.flow-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.flow-card,
+.category-card {
+  border: 1px solid oklch(0.72 0.02 85 / 0.25);
+  border-radius: 7px;
+  background: oklch(0.18 0.016 80);
+  padding: 14px;
+}
+
+.flow-card span,
+.flow-card strong,
+.flow-card em,
+.category-card strong {
+  display: block;
+}
+
+.flow-card span {
+  color: var(--brass);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.flow-card strong {
+  margin-top: 5px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.flow-card em {
+  margin-top: 8px;
+  color: oklch(0.94 0.014 86);
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1.25;
+}
+
+.flow-card p,
+.category-card p {
+  margin-top: 10px;
+  color: oklch(0.80 0.018 86);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.mini-heading {
+  margin-top: 34px;
+  color: var(--brass);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.term-strip {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.term-card {
+  border: 1px solid oklch(0.72 0.02 85 / 0.25);
+  border-radius: 7px;
+  color: var(--paper);
+  background: oklch(0.18 0.016 80);
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.term-card:hover,
+.term-card:focus-visible {
+  border-color: var(--brass);
+  background: oklch(0.25 0.025 78);
+}
+
+.term-card span,
+.term-card strong,
+.term-card em {
+  display: block;
+}
+
+.term-card span {
+  color: var(--chalk);
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+.term-card strong {
+  margin-top: 9px;
+  color: var(--brass);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.term-card em {
+  margin-top: 7px;
+  color: oklch(0.80 0.018 86);
+  font-size: 13px;
+  font-style: normal;
+  line-height: 1.28;
+}
+
+.category-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.category-card strong {
+  color: var(--paper);
+  font-size: 17px;
+}
+
 .discussion span {
   color: var(--brass);
   font-size: 12px;
@@ -922,6 +1043,9 @@ pre {
   .movement-grid,
   .mark-list,
   .panel-beats,
+  .flow-strip,
+  .term-strip,
+  .category-strip,
   .topic-grid,
   .blank-board,
   .question-deck {

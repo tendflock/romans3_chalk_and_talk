@@ -2,7 +2,7 @@
 
 A static GitHub Pages teaching page for the afternoon chalk-and-talk session on Romans 3:9-20.
 
-The page uses the earlier `tendflock/Romans3` visual-theology pattern, but the purpose is different: this is not mainly a textual-history site. It is a 45-minute leader page organized around:
+The page uses the earlier `tendflock/Romans3` visual-theology pattern, but the purpose is different: this is not mainly a textual-history site. It is an afternoon teaching page organized around:
 
 - Teaching
 - Equipping

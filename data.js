@@ -17,21 +17,21 @@ window.CHALK_DATA = {
     {
       id: "teaching",
       label: "Teaching",
-      time: "12-15 min",
+      subtitle: "Text lecture",
       title: "Nerd out on the text",
       aim: "Lecture from the text itself: grammar, source texts, courtroom imagery, and textual history.",
       beats: [
-        "Start with the Romans3 visual work: Paul frames the charge, then strings Scripture into a catena.",
-        "Show the source map: Psalm 14/53, Psalm 5, Psalm 140, Psalm 10, Isaiah 59, Psalm 36.",
-        "Use the Greek tells carefully: χρηστότητα points toward LXX Psalm 13/14; πικρίας points toward the Greek tradition in Psalm 10.",
-        "Name the nuance: Romans 3:10 is Paul's framing thesis, possibly echoing Ecclesiastes 7:20, while verses 11-12 closely track Psalm 14."
+        "Start with the visible argument skeleton: charge, witness, evidence, verdict, conclusion.",
+        "Then use the Romans3 visual work: source map, Psalm 14/53, Greek tells, and back-absorption.",
+        "Pause over key Greek phrases so the room can see how grammar drives theology.",
+        "Name the theological categories: sin, judgment, law, justification, representation, Christ."
       ],
       prompt: "Where do you see yourself still trying to answer God instead of being silenced by his verdict?"
     },
     {
       id: "equipping",
       label: "Equipping",
-      time: "15 min",
+      subtitle: "Sermon outline",
       title: "Fill in the sermon outline",
       aim: "Let the room reconstruct the preached outline and see how text, doctrine, and Christ connection fit together.",
       beats: [
@@ -45,7 +45,7 @@ window.CHALK_DATA = {
     {
       id: "application",
       label: "Application",
-      time: "10 min",
+      subtitle: "Socratic questions",
       title: "Socratic application",
       aim: "Probe the room until the doctrine becomes concrete confession, not just agreement.",
       beats: [
@@ -59,7 +59,7 @@ window.CHALK_DATA = {
     {
       id: "missions",
       label: "Missions",
-      time: "8 min",
+      subtitle: "Evangelism questions",
       title: "Socratic missions",
       aim: "Ask how Paul's universal verdict helps us speak clearly and humbly to unbelievers.",
       beats: [
@@ -109,6 +109,59 @@ window.CHALK_DATA = {
       text: "Romans 2-3 keeps the courtroom frame: God judges according to truth, God is righteous to judge the world, and the law leaves the defendant without an answer.",
       cue: "Move from textual lecture to the sermon outline: Charge, Proof, Verdict."
     }
+  ],
+
+  teachingFlow: [
+    {
+      ref: "v.9",
+      title: "The Charge",
+      label: "All are under sin",
+      body: "Jews and Greeks alike are not merely sinners by action, but under sin as a ruling power, guilt, and condemnation."
+    },
+    {
+      ref: "vv.10-12",
+      title: "The Scriptural Witness",
+      label: "No one is righteous",
+      body: "Paul begins with the thesis: no righteous one. Then Psalm 14/53 supplies the God's-eye diagnosis: no understanding, no seeking, all turned aside, no one doing good."
+    },
+    {
+      ref: "vv.13-18",
+      title: "The Evidence",
+      label: "Sin corrupts the whole person",
+      body: "The catena moves through the body: throat, tongue, lips, mouth, feet, paths, and eyes."
+    },
+    {
+      ref: "v.19",
+      title: "The Verdict",
+      label: "Every mouth stopped",
+      body: "The law speaks so nobody can answer back. This is courtroom silence."
+    },
+    {
+      ref: "v.20",
+      title: "The Theological Conclusion",
+      label: "Law exposes, but cannot justify",
+      body: "The law gives knowledge of sin, not escape from sin. That prepares for the turn: But now in Romans 3:21."
+    }
+  ],
+
+  keyTerms: [
+    { greek: "ὑφ᾽ ἁμαρτίαν", gloss: "under sin", note: "slavery, power, guilt, condemnation" },
+    { greek: "οὐκ ἔστιν", gloss: "there is not", note: "repeated negation hammering the no-exceptions point" },
+    { greek: "οὐδὲ εἷς", gloss: "not even one", note: "absolute universality" },
+    { greek: "δικαιωθήσεται", gloss: "will be justified", note: "courtroom/legal declaration" },
+    { greek: "ὑπόδικος", gloss: "answerable to God", note: "liable before the judge" },
+    { greek: "ἐξ ἔργων νόμου", gloss: "by works of law", note: "no human obedience can establish righteous standing" },
+    { greek: "ἐπίγνωσις ἁμαρτίας", gloss: "knowledge of sin", note: "the law reveals and names sin" }
+  ],
+
+  categories: [
+    { title: "Hamartiology", text: "Sin as guilt, corruption, slavery, and rebellion." },
+    { title: "Judgment", text: "God's righteousness means he judges truly." },
+    { title: "Anthropology", text: "Mankind naturally, apart from grace." },
+    { title: "Law", text: "The law exposes sin but cannot justify sinners." },
+    { title: "Justification", text: "Denied by works in Romans 3:20; supplied by Christ in Romans 3:21-26." },
+    { title: "Union / Representation", text: "All humanity in Adam is condemned; Christ is the only righteous one." },
+    { title: "Christology", text: "Christ as the only exception, tested one, advocate, and righteousness." }
   ],
 
   equippingBlanks: [

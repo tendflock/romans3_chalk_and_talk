@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Romans 3:9-20 · Chalk & Talk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Gentium+Plus:ital,wght@0,400;0,700;1,400&family=Frank+Ruhl+Libre:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="topnav" aria-label="Session navigation">
+    <a class="brand" href="#top" aria-label="Romans 3 chalk and talk home">
+      <span class="brand-mark">R3</span>
+      <span><strong>Chalk & Talk</strong><em>Romans 3:9-20</em></span>
+    </a>
+    <div class="navlinks">
+      <a href="#teaching">Teaching</a>
+      <a href="#equipping">Equipping</a>
+      <a href="#application">Application</a>
+      <a href="#missions">Missions</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero section-band">
+      <div class="hero-copy">
+        <div class="eyebrow">Afternoon Session · 45 minutes</div>
+        <h1>Romans 3:9-20<br>Chalk & Talk</h1>
+        <p class="thesis">Accept the guilty verdict of sinner and flee to Christ, the only righteous one.</p>
+        <div class="session-steps" id="session-steps" aria-label="Four-part afternoon structure"></div>
+      </div>
+
+      <div class="board-shell" aria-label="Interactive chalkboard summary">
+        <div class="chalkboard">
+          <div class="board-head">
+            <span>Romans 3:9-20</span>
+            <button class="board-toggle" id="board-toggle" type="button">Hide sources</button>
+          </div>
+          <div class="board-grid">
+            <div class="source-list" id="source-list"></div>
+            <div class="thread-board" id="thread-board"></div>
+            <ol class="timeline" id="timeline"></ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="movements section-band" aria-labelledby="movements-title">
+      <div class="section-label">The sermon burden</div>
+      <h2 id="movements-title">The argument in three movements</h2>
+      <div class="movement-grid" id="movement-grid"></div>
+    </section>
+
+    <section class="session section-band" aria-labelledby="session-title">
+      <div class="section-label">Teaching surface</div>
+      <h2 id="session-title">Use the page in the room</h2>
+      <p class="session-note">Teaching borrows the visual logic from the Romans3 site; the other blocks turn the sermon into blanks, questions, and mission prompts.</p>
+      <div class="session-layout">
+        <aside class="session-tabs" id="session-tabs" aria-label="Session block selector"></aside>
+        <article class="session-panel" id="session-panel"></article>
+      </div>
+    </section>
+
+    <section class="workshop section-band" aria-labelledby="workshop-title">
+      <div>
+        <div class="section-label">Leader flow</div>
+        <h2 id="workshop-title">The afternoon moves from lecture to response.</h2>
+      </div>
+      <div class="leader-grid">
+        <div class="leader-card">
+          <span class="card-num">01</span>
+          <h3>Nerd out on the text</h3>
+          <p>Use the board to lecture on grammar, source texts, courtroom language, and textual history.</p>
+        </div>
+        <div class="leader-card">
+          <span class="card-num">02</span>
+          <h3>Fill the sermon blanks</h3>
+          <p>Move from research to proclamation by letting the group complete the preached outline.</p>
+        </div>
+        <div class="leader-card">
+          <span class="card-num">03</span>
+          <h3>Probe with questions</h3>
+          <p>Use Socratic questions for application and missions so the room has to wrestle out loud.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="marks section-band" aria-labelledby="marks-title">
+      <div class="section-label">What actually preached</div>
+      <h2 id="marks-title">Marked pulpit outline</h2>
+      <p class="marks-intro">Filter the sermon by its working marks: exposition, illustration, application, Christ connection, and pulpit transition.</p>
+      <div class="mark-controls" id="mark-controls" aria-label="Sermon mark filters"></div>
+      <div class="mark-list" id="mark-list"></div>
+    </section>
+
+    <section class="handout section-band" aria-labelledby="handout-title">
+      <div class="section-label">Copy-ready</div>
+      <h2 id="handout-title">What the congregation received</h2>
+      <div class="handout-card">
+        <pre id="handout-text"></pre>
+        <button class="copy-btn" id="copy-handout" type="button">Copy outline</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+const D = window.CHALK_DATA;
+
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+function renderSteps() {
+  $("#session-steps").innerHTML = D.blocks.map((block, index) => `
+    <a class="step-pill" href="#${block.id}">
+      <span>${String(index + 1).padStart(2, "0")}</span>
+      <strong>${block.label}</strong>
+      <em>${block.time}</em>
+    </a>
+  `).join("");
+}
+
+function renderSources(activeId = null) {
+  $("#source-list").innerHTML = D.sources.map((source) => `
+    <button class="source-chip ${activeId === source.id ? "active" : ""}" type="button" data-source="${source.id}" style="--source:${source.color}">
+      <span>${source.label}</span>
+      <em>${source.ref}</em>
+    </button>
+  `).join("");
+}
+
+function renderBoard(activeId = null) {
+  const phrases = activeId ? D.boardPhrases.filter((p) => p.source === activeId) : D.boardPhrases;
+  $("#thread-board").innerHTML = `
+    <svg class="thread-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      ${phrases.map((p, i) => `<path d="M 5 ${20 + i * 10} C 26 ${p.y - 18}, ${p.x - 16} ${p.y - 5}, ${p.x} ${p.y}" />`).join("")}
+    </svg>
+    ${phrases.map((p) => {
+      const source = D.sources.find((s) => s.id === p.source);
+      return `
+        <button class="phrase-card" type="button" data-source="${p.source}" style="left:${p.x}%; top:${p.y}%; --source:${source.color}">
+          <span class="greek">${p.text}</span>
+          <em>${p.ref} · ${p.en}</em>
+        </button>
+      `;
+    }).join("")}
+  `;
+}
+
+function renderTimeline() {
+  $("#timeline").innerHTML = D.blocks.map((block, index) => `
+    <li>
+      <span>${String(index + 1).padStart(2, "0")}</span>
+      <strong>${block.label}</strong>
+      <em>${block.time}</em>
+    </li>
+  `).join("");
+}
+
+function renderMovements() {
+  $("#movement-grid").innerHTML = D.movements.map((move) => `
+    <article class="movement-card">
+      <span class="movement-num">${move.number}</span>
+      <div>
+        <p>${move.ref}</p>
+        <h3>${move.title}</h3>
+        <strong>${move.summary}</strong>
+        <em>${move.christ}</em>
+        <small>${move.note}</small>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderMarks(active = "all") {
+  $("#mark-controls").innerHTML = D.marks.map((mark) => `
+    <button class="${mark.id === active ? "active" : ""}" type="button" data-mark="${mark.id}">
+      ${mark.label}
+    </button>
+  `).join("");
+
+  $("#mark-list").innerHTML = D.pulpitOutline.map((section) => {
+    const items = section.items.filter((item) => active === "all" || item.mark === active);
+    if (!items.length) return "";
+    return `
+      <article class="outline-section">
+        <h3>${section.section}</h3>
+        <div class="outline-items">
+          ${items.map((item) => `
+            <div class="outline-item" data-mark="${item.mark}">
+              <span>${item.mark}</span>
+              <p>${item.text}</p>
+            </div>
+          `).join("")}
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderSessionTabs(activeId = D.blocks[0].id) {
+  $("#session-tabs").innerHTML = D.blocks.map((block) => `
+    <button class="${block.id === activeId ? "active" : ""}" type="button" data-block="${block.id}" id="${block.id}">
+      <span>${block.label}</span>
+      <em>${block.time}</em>
+    </button>
+  `).join("");
+  renderSessionPanel(activeId);
+}
+
+function renderSessionPanel(activeId) {
+  const block = D.blocks.find((item) => item.id === activeId);
+  let interactive = "";
+  if (activeId === "teaching") interactive = renderTeachingTopics();
+  if (activeId === "equipping") interactive = renderEquippingBlanks();
+  if (activeId === "application") interactive = renderQuestionDeck(D.applicationQuestions, "Application questions");
+  if (activeId === "missions") interactive = renderQuestionDeck(D.missionsQuestions, "Missions questions");
+
+  $("#session-panel").innerHTML = `
+    <div class="panel-kicker">${block.time}</div>
+    <h3>${block.title}</h3>
+    <p class="panel-aim">${block.aim}</p>
+    <ul class="panel-beats">
+      ${block.beats.map((beat) => `<li>${beat}</li>`).join("")}
+    </ul>
+    ${interactive}
+    <div class="discussion">
+      <span>Discussion prompt</span>
+      <p>${block.prompt}</p>
+    </div>
+  `;
+}
+
+function renderTeachingTopics() {
+  return `
+    <div class="topic-grid">
+      ${D.teachingTopics.map((topic) => `
+        <button class="topic-card" type="button">
+          <span>${topic.label}</span>
+          <strong>${topic.title}</strong>
+          <em>${topic.text}</em>
+          <small>${topic.cue}</small>
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderEquippingBlanks() {
+  return `
+    <div class="blank-board" id="blank-board">
+      ${D.equippingBlanks.map((blank, index) => `
+        <button class="blank-line" type="button" data-blank="${index}">
+          <span>${blank.prompt}</span>
+          <strong>${blank.answer}</strong>
+          <em>${blank.help}</em>
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderQuestionDeck(questions, label) {
+  return `
+    <div class="question-deck" aria-label="${label}">
+      ${questions.map((question, index) => `
+        <button class="question-card" type="button">
+          <span>${String(index + 1).padStart(2, "0")}</span>
+          <strong>${question}</strong>
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function wireInteractions() {
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+    const id = link.getAttribute("href").slice(1);
+    if (!D.blocks.some((block) => block.id === id)) return;
+    event.preventDefault();
+    renderSessionTabs(id);
+    $(".session").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  $("#source-list").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-source]");
+    if (!button) return;
+    const id = button.dataset.source;
+    const isActive = button.classList.contains("active");
+    renderSources(isActive ? null : id);
+    renderBoard(isActive ? null : id);
+  });
+
+  $("#board-toggle").addEventListener("click", () => {
+    const shell = $(".board-shell");
+    shell.classList.toggle("sources-hidden");
+    $("#board-toggle").textContent = shell.classList.contains("sources-hidden") ? "Show sources" : "Hide sources";
+  });
+
+  $("#session-tabs").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-block]");
+    if (!button) return;
+    renderSessionTabs(button.dataset.block);
+  });
+
+  $("#session-panel").addEventListener("click", (event) => {
+    const blank = event.target.closest(".blank-line");
+    if (blank) blank.classList.toggle("revealed");
+    const question = event.target.closest(".question-card");
+    if (question) question.classList.toggle("active");
+    const topic = event.target.closest(".topic-card");
+    if (topic) topic.classList.toggle("active");
+  });
+
+  $("#mark-controls").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-mark]");
+    if (!button) return;
+    renderMarks(button.dataset.mark);
+  });
+
+  $("#copy-handout").addEventListener("click", async () => {
+    await navigator.clipboard.writeText(D.handout);
+    $("#copy-handout").textContent = "Copied";
+    setTimeout(() => { $("#copy-handout").textContent = "Copy outline"; }, 1200);
+  });
+}
+
+function revealOnScroll() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) entry.target.classList.add("visible");
+    });
+  }, { threshold: 0.14 });
+  $$(".section-band, .movement-card, .leader-card").forEach((el) => observer.observe(el));
+}
+
+function init() {
+  renderSteps();
+  renderSources();
+  renderBoard();
+  renderTimeline();
+  renderMovements();
+  renderMarks();
+  const initialBlock = D.blocks.some((block) => block.id === location.hash.slice(1)) ? location.hash.slice(1) : D.blocks[0].id;
+  renderSessionTabs(initialBlock);
+  $("#handout-text").textContent = D.handout;
+  wireInteractions();
+  revealOnScroll();
+}
+
+init();

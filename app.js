@@ -101,6 +101,12 @@ function renderSessionTabs(activeId = D.blocks[0].id) {
   renderSessionPanel(activeId);
 }
 
+function setActiveBlock(id, shouldScroll = true, shouldUpdateHash = true) {
+  renderSessionTabs(id);
+  if (shouldUpdateHash) history.replaceState(null, "", `#${id}`);
+  if (shouldScroll) $(".session").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 function renderSessionPanel(activeId) {
   const block = D.blocks.find((item) => item.id === activeId);
   let interactive = "";
@@ -126,33 +132,59 @@ function renderSessionPanel(activeId) {
 
 function renderTeachingTopics() {
   return `
+    <div class="teaching-frame">
+      <span>Romans 3:9-20 moves like a courtroom closing argument</span>
+      <strong>Charge -> Witness -> Evidence -> Verdict -> Conclusion -> But now</strong>
+    </div>
+    <div class="sketch-strip">
+      ${D.teachingSketch.map((step) => `
+        <button class="sketch-card" type="button">
+          <span>${step.ref}</span>
+          <strong>${step.title}</strong>
+          <em>${step.text}</em>
+        </button>
+      `).join("")}
+    </div>
     <div class="flow-strip">
       ${D.teachingFlow.map((step, index) => `
-        <article class="flow-card">
+        <button class="flow-card" type="button">
           <span>${step.ref}</span>
           <strong>${index + 1}. ${step.title}</strong>
           <em>${step.label}</em>
           <p>${step.body}</p>
-        </article>
+        </button>
+      `).join("")}
+    </div>
+    <div class="mini-heading">Body-parts evidence</div>
+    <div class="body-strip">
+      ${D.bodyParts.map((item) => `
+        <button class="body-card" type="button">
+          <span>${item.ref}</span>
+          <strong>${item.part}</strong>
+          <em>${item.image}</em>
+        </button>
       `).join("")}
     </div>
     <div class="mini-heading">Key words and phrases</div>
     <div class="term-strip">
       ${D.keyTerms.map((term) => `
         <button class="term-card" type="button">
+          <span class="term-ref">${term.ref}</span>
           <span class="greek">${term.greek}</span>
           <strong>${term.gloss}</strong>
           <em>${term.note}</em>
+          <small>${term.cue}</small>
         </button>
       `).join("")}
     </div>
     <div class="mini-heading">Theological categories</div>
     <div class="category-strip">
       ${D.categories.map((cat) => `
-        <article class="category-card">
+        <button class="category-card" type="button">
+          <span>${cat.ref}</span>
           <strong>${cat.title}</strong>
           <p>${cat.text}</p>
-        </article>
+        </button>
       `).join("")}
     </div>
     <div class="mini-heading">Romans3 lecture modules</div>
@@ -203,8 +235,7 @@ function wireInteractions() {
     const id = link.getAttribute("href").slice(1);
     if (!D.blocks.some((block) => block.id === id)) return;
     event.preventDefault();
-    renderSessionTabs(id);
-    $(".session").scrollIntoView({ behavior: "smooth", block: "start" });
+    setActiveBlock(id);
   });
 
   $("#source-list").addEventListener("click", (event) => {
@@ -225,7 +256,7 @@ function wireInteractions() {
   $("#session-tabs").addEventListener("click", (event) => {
     const button = event.target.closest("[data-block]");
     if (!button) return;
-    renderSessionTabs(button.dataset.block);
+    setActiveBlock(button.dataset.block, false);
   });
 
   $("#session-panel").addEventListener("click", (event) => {
@@ -235,6 +266,10 @@ function wireInteractions() {
     if (question) question.classList.toggle("active");
     const topic = event.target.closest(".topic-card");
     if (topic) topic.classList.toggle("active");
+    const term = event.target.closest(".term-card");
+    if (term) term.classList.toggle("active");
+    const teachingCard = event.target.closest(".sketch-card, .flow-card, .body-card, .category-card");
+    if (teachingCard) teachingCard.classList.toggle("active");
   });
 
   $("#mark-controls").addEventListener("click", (event) => {
@@ -266,11 +301,19 @@ function init() {
   renderTimeline();
   renderMovements();
   renderMarks();
-  const initialBlock = D.blocks.some((block) => block.id === location.hash.slice(1)) ? location.hash.slice(1) : D.blocks[0].id;
+  const hashBlock = location.hash.slice(1);
+  const hasBlockHash = D.blocks.some((block) => block.id === hashBlock);
+  const initialBlock = hasBlockHash ? hashBlock : D.blocks[0].id;
   renderSessionTabs(initialBlock);
   $("#handout-text").textContent = D.handout;
   wireInteractions();
   revealOnScroll();
+  if (hasBlockHash) {
+    requestAnimationFrame(() => $(".session").scrollIntoView({ behavior: "auto", block: "start" }));
+    window.addEventListener("load", () => {
+      setTimeout(() => $(".session").scrollIntoView({ behavior: "auto", block: "start" }), 120);
+    }, { once: true });
+  }
 }
 
 init();

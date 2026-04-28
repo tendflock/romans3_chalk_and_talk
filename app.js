@@ -173,6 +173,64 @@
           <div class="gd-cue">${t.cue}</div>
         `;
       });
+    },
+
+    "courtroom-chain"(el, block) {
+      const head = document.createElement("div");
+      head.className = "teach-head";
+      head.innerHTML = `
+        <div class="eyebrow">COURTROOM</div>
+        <h2 class="title">${block.title}</h2>
+        ${block.blurb ? `<p class="muted">${block.blurb}</p>` : ""}
+      `;
+      el.appendChild(head);
+
+      const chain = document.createElement("div");
+      chain.className = "court-chain";
+      chain.innerHTML = block.nodes.map((n, i) => `
+        ${i > 0 ? `<div class="court-arrow" data-i="${i}">→</div>` : ""}
+        <button class="court-node ${n.terminal ? "terminal" : ""}" data-i="${i}">
+          <div class="cn-ref">${n.ref}</div>
+          <div class="cn-label">${n.label}</div>
+        </button>
+      `).join("");
+      el.appendChild(chain);
+
+      const note = document.createElement("div");
+      note.className = "court-note";
+      note.hidden = true;
+      el.appendChild(note);
+
+      let activeIdx = null;
+      function paint() {
+        $$(".court-node", el).forEach(n => {
+          const i = Number(n.dataset.i);
+          n.dataset.state = i < activeIdx ? "passed"
+                          : i === activeIdx ? "active"
+                          : "upcoming";
+        });
+        $$(".court-arrow", el).forEach(a => {
+          const i = Number(a.dataset.i);
+          a.dataset.state = i <= activeIdx ? "passed" : "upcoming";
+        });
+      }
+
+      chain.addEventListener("click", (e) => {
+        const btn = e.target.closest(".court-node");
+        if (!btn) return;
+        const i = Number(btn.dataset.i);
+        activeIdx = (activeIdx === i) ? null : i;
+        if (activeIdx == null) {
+          $$(".court-node", el).forEach(n => n.dataset.state = "upcoming");
+          $$(".court-arrow", el).forEach(a => a.dataset.state = "upcoming");
+          note.hidden = true;
+          return;
+        }
+        paint();
+        const n = block.nodes[activeIdx];
+        note.hidden = false;
+        note.innerHTML = `<strong>${n.ref}</strong> · ${n.note}`;
+      });
     }
   };
 

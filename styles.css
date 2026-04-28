@@ -456,3 +456,21 @@ section > * { max-width: var(--content-max); margin-left: auto; margin-right: au
   font-family: var(--font-mono);
 }
 .reveal-all:hover { background: var(--accent); color: #fff; }
+
+.tag--evangelism      { background: oklch(0.85 0.06 130); color: #1a1a1a; }
+.tag--apologetics     { background: oklch(0.85 0.06 230); color: #1a1a1a; }
+.tag--home            { background: oklch(0.86 0.05 80);  color: #1a1a1a; }
+.tag--abroad          { background: oklch(0.86 0.05 320); color: #1a1a1a; }
+.tag--confession      { background: oklch(0.86 0.05 30);  color: #1a1a1a; }
+.tag--self-justification { background: oklch(0.86 0.05 60); color: #1a1a1a; }
+.tag--christ-thread   { background: oklch(0.86 0.05 280); color: #1a1a1a; }
+.tag--words           { background: oklch(0.86 0.05 100); color: #1a1a1a; }
+.tag--family          { background: oklch(0.86 0.05 200); color: #1a1a1a; }
+.tag--relationships   { background: oklch(0.86 0.05 220); color: #1a1a1a; }
+.tag--conscience      { background: oklch(0.86 0.05 340); color: #1a1a1a; }
+.tag--discipleship    { background: oklch(0.86 0.05 160); color: #1a1a1a; }
+
+section[data-theme="dark"] .tag--evangelism      { background: oklch(0.65 0.10 130); }
+section[data-theme="dark"] .tag--apologetics     { background: oklch(0.65 0.10 230); }
+section[data-theme="dark"] .tag--home            { background: oklch(0.66 0.08 80); }
+section[data-theme="dark"] .tag--abroad          { background: oklch(0.66 0.08 320); }

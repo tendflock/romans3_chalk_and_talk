@@ -348,8 +348,30 @@
       }
     });
   }
-  function renderApply() { /* Task 13 */ }
-  function renderMission() { /* Task 13 */ }
+  function renderApply() {
+    return renderSlides("#apply-slides", D.apply, "APPLY");
+  }
+  function renderMission() {
+    return renderSlides("#mission-slides", D.mission, "MISSION");
+  }
+
+  function renderSlides(mountSel, items, label) {
+    const mount = $(mountSel);
+    if (!mount || !items) return;
+    const total = items.length;
+    mount.innerHTML = items.map((q, i) => {
+      const tags = (q.tags || []).map(t => `<span class="tag tag--${t}">${t}</span>`).join("");
+      const dots = items.map((_, k) => `<span class="dot ${k === i ? "active" : ""}"></span>`).join("");
+      return `
+        <article class="slide reveal" data-i="${i}">
+          <div class="eyebrow">${label} · QUESTION ${i + 1} OF ${total}</div>
+          <p class="question">${escapeHtml(q.question)}</p>
+          <div class="tags">${tags}</div>
+          <div class="pagination">${dots}</div>
+        </article>
+      `;
+    }).join("");
+  }
   function renderSendOut() { /* Task 14 */ }
   function renderRail() {
     const rail = $("#rail");
@@ -429,6 +451,15 @@
     setupRailObserver();
     setupKeyboard();
     setupReveal();
+    if (D.mission) {
+      const seen = new Set();
+      D.mission.forEach(q => (q.tags || []).forEach(t => seen.add(t)));
+      const need = ["evangelism", "apologetics", "home", "abroad"];
+      const missing = need.filter(t => !seen.has(t));
+      if (missing.length) {
+        console.warn(`Mission missing tag categories: ${missing.join(", ")}`);
+      }
+    }
   }
 
   if (document.readyState === "loading") {

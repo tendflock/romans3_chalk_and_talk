@@ -63,30 +63,86 @@
       `;
       el.appendChild(head);
 
-      const verses = document.createElement("ol");
-      verses.className = "catena-mosaic";
-      verses.innerHTML = phrases.map(p => {
-        const src = sourceById[p.sourceId];
-        const color = src ? `oklch(0.55 0.13 ${src.hue})` : "currentColor";
-        return `
-          <li>
-            <span class="v">${escapeHtml(p.ref)}</span>
-            <span class="t" style="--src-color: ${color};"><span class="src-dot"></span>${escapeHtml(p.text)}</span>
-          </li>
-        `;
-      }).join("");
-      el.appendChild(verses);
+      const wrap = document.createElement("div");
+      wrap.className = "catena-wrap";
+      wrap.innerHTML = `
+        <svg class="catena-thread" aria-hidden="true" preserveAspectRatio="none">
+          <line class="catena-thread-line" x1="0" y1="0" x2="0" y2="0"
+                stroke="var(--ink-body)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <ol class="catena-mosaic">
+          ${phrases.map(p => {
+            const src = sourceById[p.sourceId];
+            const color = src ? `oklch(0.55 0.13 ${src.hue})` : "currentColor";
+            const srcLabel = src ? src.label : "";
+            return `
+              <li class="reveal" style="--src-color: ${color};">
+                <span class="v">${escapeHtml(p.ref)}</span>
+                <span class="t"><span class="src-dot"></span>${escapeHtml(p.text)}</span>
+                <span class="src">${escapeHtml(srcLabel)}</span>
+              </li>
+            `;
+          }).join("")}
+        </ol>
+      `;
+      el.appendChild(wrap);
 
-      const key = document.createElement("div");
-      key.className = "catena-key";
-      key.innerHTML = sources.map(s => `
-        <span class="key-item">
-          <span class="key-dot" style="background: oklch(0.55 0.13 ${s.hue});"></span>
-          <span class="key-label">${escapeHtml(s.label)}</span>
-          <span class="key-ref">${escapeHtml(s.ref)}</span>
-        </span>
-      `).join("");
-      el.appendChild(key);
+      // Position thread line through the dots; update on resize and after fonts load.
+      function positionThread() {
+        const svg = wrap.querySelector(".catena-thread");
+        const line = wrap.querySelector(".catena-thread-line");
+        const mosaic = wrap.querySelector(".catena-mosaic");
+        const dots = $$(".src-dot", mosaic);
+        if (!dots.length) return;
+        const wrapBox = wrap.getBoundingClientRect();
+        const first = dots[0].getBoundingClientRect();
+        const last = dots[dots.length - 1].getBoundingClientRect();
+        const x = first.left + first.width / 2 - wrapBox.left;
+        const y1 = first.top + first.height / 2 - wrapBox.top;
+        const y2 = last.top + last.height / 2 - wrapBox.top;
+        svg.setAttribute("viewBox", `0 0 ${wrapBox.width} ${wrapBox.height}`);
+        svg.style.height = `${wrapBox.height}px`;
+        line.setAttribute("x1", x);
+        line.setAttribute("x2", x);
+        line.setAttribute("y1", y1);
+        line.setAttribute("y2", y2);
+        const length = Math.abs(y2 - y1);
+        line.style.strokeDasharray = length;
+        line.style.strokeDashoffset = length;
+        line.dataset.length = length;
+        line.dataset.y1 = y1;
+        line.dataset.y2 = y2;
+      }
+
+      function updateThread() {
+        const line = wrap.querySelector(".catena-thread-line");
+        if (!line || !line.dataset.length) return;
+        const wrapBox = wrap.getBoundingClientRect();
+        const vh = window.innerHeight;
+        // Progress is 0 when first dot is at viewport bottom, 1 when last dot is at viewport top half.
+        const y1Abs = wrapBox.top + Number(line.dataset.y1);
+        const y2Abs = wrapBox.top + Number(line.dataset.y2);
+        const start = y1Abs - vh * 0.7;
+        const end = y2Abs - vh * 0.3;
+        const total = end - start;
+        const progress = total <= 0 ? 1 : Math.max(0, Math.min(1, -start / total));
+        const length = Number(line.dataset.length);
+        line.style.strokeDashoffset = length * (1 - progress);
+      }
+
+      function init() {
+        positionThread();
+        updateThread();
+      }
+
+      // Run after layout settles.
+      requestAnimationFrame(init);
+      window.addEventListener("resize", init);
+      window.addEventListener("scroll", updateThread, { passive: true });
+      // Re-run when fonts load so positions reflect final metrics.
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(init);
+      }
     },
 
     "greek-terms"(el, block) {

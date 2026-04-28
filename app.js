@@ -39,9 +39,11 @@
     const m = D.meta;
     el.innerHTML = `
       <div class="hero-inner reveal">
-        <h1 class="title">${m.passage}</h1>
-        <p class="subtitle">${m.burden}</p>
-        <p class="muted">${m.takeHome}</p>
+        <div class="hero-eyebrow">${m.passage} · TEAM</div>
+        <h1 class="hero-passage">${escapeHtml(m.passage)}</h1>
+        <p class="hero-burden">${escapeHtml(m.burden)}</p>
+        <p class="hero-takehome">${escapeHtml(m.takeHome)}</p>
+        <div class="hero-scroll-cue">scroll ↓</div>
       </div>
     `;
   }
@@ -51,132 +53,75 @@
     catena(el, block) {
       const sources = block.sources;
       const phrases = block.phrases;
+      const sourceById = Object.fromEntries(sources.map(s => [s.id, s]));
 
       const head = document.createElement("div");
       head.className = "teach-head";
       head.innerHTML = `
-        <div class="eyebrow">CATENA</div>
-        <h2 class="title">${block.title}</h2>
-        ${block.blurb ? `<p class="muted">${block.blurb}</p>` : ""}
+        <h2 class="title">${escapeHtml(block.title)}</h2>
+        ${block.blurb ? `<p class="blurb">${escapeHtml(block.blurb)}</p>` : ""}
       `;
       el.appendChild(head);
 
-      const chips = document.createElement("div");
-      chips.className = "catena-chips";
-      chips.innerHTML = sources.map(s => `
-        <button class="catena-chip" data-src="${s.id}"
-                style="background: oklch(0.50 0.13 ${s.hue}); color: #fff;">
-          <span class="chip-label">${s.label}</span>
-          <span class="chip-ref">${s.ref}</span>
-        </button>
-      `).join("");
-      el.appendChild(chips);
-
-      const svgWrap = document.createElement("div");
-      svgWrap.className = "catena-svg-wrap";
-      svgWrap.innerHTML = `
-        <svg class="catena-svg" viewBox="0 0 600 140" preserveAspectRatio="none">
-          ${sources.map((s, i) => {
-            const x = 60 + i * (480 / (sources.length - 1));
-            return `<path class="catena-curve" data-src="${s.id}"
-              d="M ${x} 10 Q ${x} 80 ${(x + 300) / 2} 130"
-              stroke="oklch(0.50 0.13 ${s.hue})" fill="none" stroke-width="2.5" opacity="0.35"/>`;
-          }).join("")}
-          <line x1="40" y1="130" x2="560" y2="130" stroke="#222" stroke-width="2"/>
-        </svg>
-      `;
-      el.appendChild(svgWrap);
-
       const verses = document.createElement("ol");
-      verses.className = "catena-verses";
+      verses.className = "catena-mosaic";
       verses.innerHTML = phrases.map(p => {
-        const src = sources.find(s => s.id === p.sourceId);
+        const src = sourceById[p.sourceId];
+        const color = src ? `oklch(0.55 0.13 ${src.hue})` : "currentColor";
         return `
-          <li class="catena-line" data-src="${p.sourceId}"
-              style="--src-bg: oklch(0.92 0.04 ${src ? src.hue : 0});">
-            <span class="v">${p.ref}</span>
-            <span class="t">${p.text}</span>
+          <li>
+            <span class="v">${escapeHtml(p.ref)}</span>
+            <span class="t" style="--src-color: ${color};"><span class="src-dot"></span>${escapeHtml(p.text)}</span>
           </li>
         `;
       }).join("");
       el.appendChild(verses);
 
-      let activeSrc = null;
-      function setActive(srcId) {
-        activeSrc = srcId;
-        $$(".catena-chip", el).forEach(c => c.dataset.active = (c.dataset.src === srcId) ? "true" : "false");
-        $$(".catena-curve", el).forEach(c => c.style.opacity = (c.dataset.src === srcId) ? "1" : "0.15");
-        $$(".catena-line", el).forEach(line => line.dataset.active = (line.dataset.src === srcId) ? "true" : "false");
-      }
-      chips.addEventListener("click", (e) => {
-        const btn = e.target.closest(".catena-chip");
-        if (!btn) return;
-        if (activeSrc === btn.dataset.src) {
-          activeSrc = null;
-          $$(".catena-chip", el).forEach(c => c.dataset.active = "false");
-          $$(".catena-curve", el).forEach(c => c.style.opacity = "0.35");
-          $$(".catena-line", el).forEach(line => line.dataset.active = "false");
-        } else {
-          setActive(btn.dataset.src);
-        }
-      });
+      const key = document.createElement("div");
+      key.className = "catena-key";
+      key.innerHTML = sources.map(s => `
+        <span class="key-item">
+          <span class="key-dot" style="background: oklch(0.55 0.13 ${s.hue});"></span>
+          <span class="key-label">${escapeHtml(s.label)}</span>
+          <span class="key-ref">${escapeHtml(s.ref)}</span>
+        </span>
+      `).join("");
+      el.appendChild(key);
     },
 
     "greek-terms"(el, block) {
       const head = document.createElement("div");
       head.className = "teach-head";
       head.innerHTML = `
-        <h2 class="title">${block.title}</h2>
-        ${block.blurb ? `<p class="muted">${block.blurb}</p>` : ""}
+        <h2 class="title">${escapeHtml(block.title)}</h2>
+        ${block.blurb ? `<p class="blurb">${escapeHtml(block.blurb)}</p>` : ""}
       `;
       el.appendChild(head);
 
-      const grid = document.createElement("div");
-      grid.className = "greek-grid";
-      grid.innerHTML = block.terms.map((t, i) => `
-        <button class="greek-chip" data-i="${i}" aria-expanded="false">
-          <div class="gk-greek greek">${t.greek}</div>
-          <div class="gk-gloss">${t.gloss}</div>
-        </button>
+      const stack = document.createElement("div");
+      stack.className = "greek-stack";
+      stack.innerHTML = block.terms.map(t => `
+        <article class="greek-term reveal">
+          <div class="gk-left">
+            <p class="gk-greek">${escapeHtml(t.greek)}</p>
+            <p class="gk-gloss">${escapeHtml(t.gloss)}</p>
+            <p class="gk-ref">${escapeHtml(t.ref)}</p>
+          </div>
+          <div class="gk-right">
+            <p class="gk-note">${escapeHtml(t.note)}</p>
+            <p class="gk-cue">${escapeHtml(t.cue)}</p>
+          </div>
+        </article>
       `).join("");
-      el.appendChild(grid);
-
-      const detail = document.createElement("div");
-      detail.className = "greek-detail";
-      detail.hidden = true;
-      el.appendChild(detail);
-
-      let activeIdx = null;
-      grid.addEventListener("click", (e) => {
-        const btn = e.target.closest(".greek-chip");
-        if (!btn) return;
-        const i = Number(btn.dataset.i);
-        if (activeIdx === i) {
-          activeIdx = null;
-          detail.hidden = true;
-          $$(".greek-chip", el).forEach(c => c.setAttribute("aria-expanded", "false"));
-          return;
-        }
-        activeIdx = i;
-        const t = block.terms[i];
-        $$(".greek-chip", el).forEach(c => c.setAttribute("aria-expanded", c.dataset.i === String(i) ? "true" : "false"));
-        detail.hidden = false;
-        detail.innerHTML = `
-          <div class="gd-greek greek">${t.greek}</div>
-          <div class="gd-gloss"><em>${t.gloss}</em> · <span class="muted">${t.ref}</span></div>
-          <div class="gd-note">${t.note}</div>
-          <div class="gd-cue">${t.cue}</div>
-        `;
-      });
+      el.appendChild(stack);
     },
 
     "courtroom-chain"(el, block) {
       const head = document.createElement("div");
       head.className = "teach-head";
       head.innerHTML = `
-        <div class="eyebrow">COURTROOM</div>
-        <h2 class="title">${block.title}</h2>
-        ${block.blurb ? `<p class="muted">${block.blurb}</p>` : ""}
+        <h2 class="title">${escapeHtml(block.title)}</h2>
+        ${block.blurb ? `<p class="blurb">${escapeHtml(block.blurb)}</p>` : ""}
       `;
       el.appendChild(head);
 
@@ -232,9 +177,8 @@
       const head = document.createElement("div");
       head.className = "teach-head";
       head.innerHTML = `
-        <div class="eyebrow">BODY-PARTS</div>
-        <h2 class="title">${block.title}</h2>
-        ${block.blurb ? `<p class="muted">${block.blurb}</p>` : ""}
+        <h2 class="title">${escapeHtml(block.title)}</h2>
+        ${block.blurb ? `<p class="blurb">${escapeHtml(block.blurb)}</p>` : ""}
       `;
       el.appendChild(head);
 
@@ -326,10 +270,9 @@
     const twHtml = renderBlankTemplate(tw.template, blanksToMap(tw.blanks), "tw");
 
     mount.innerHTML = `
-      <div class="eyebrow">EQUIP</div>
       <p class="eq-bigidea">${bigIdeaHtml}</p>
       <div class="eq-cards">${moveCards}</div>
-      <p class="eq-thisweek"><strong class="eyebrow eyebrow-inline">THIS WEEK</strong> · ${twHtml}</p>
+      <p class="eq-thisweek"><span class="eyebrow-inline">This week</span>${twHtml}</p>
       <div class="eq-actions">
         <button type="button" class="reveal-all" id="equip-reveal-all">Reveal all <kbd>r</kbd></button>
       </div>
@@ -373,8 +316,7 @@
       ? `<p class="send-link"><a href="${so.deeperLink.url}" target="_blank" rel="noopener">${so.deeperLink.label} →</a></p>`
       : "";
     mount.innerHTML = `
-      <div class="eyebrow">CLOSE</div>
-      <h2 class="title send-th">Take-home truth</h2>
+      <p class="send-th">Take-home truth</p>
       <p class="send-truth"><em>${escapeHtml(so.takeHome)}</em></p>
       ${link}
     `;

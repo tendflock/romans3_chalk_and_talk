@@ -372,7 +372,20 @@
       `;
     }).join("");
   }
-  function renderSendOut() { /* Task 14 */ }
+  function renderSendOut() {
+    const mount = $("#send-out-panel");
+    if (!mount || !D || !D.sendOut) return;
+    const so = D.sendOut;
+    const link = so.deeperLink
+      ? `<p class="send-link"><a href="${so.deeperLink.url}" target="_blank" rel="noopener">${so.deeperLink.label} →</a></p>`
+      : "";
+    mount.innerHTML = `
+      <div class="eyebrow">CLOSE</div>
+      <h2 class="title send-th">Take-home truth</h2>
+      <p class="send-truth"><em>${escapeHtml(so.takeHome)}</em></p>
+      ${link}
+    `;
+  }
   function renderRail() {
     const rail = $("#rail");
     if (!rail) return;

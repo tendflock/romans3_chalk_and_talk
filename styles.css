@@ -474,3 +474,8 @@ section[data-theme="dark"] .tag--evangelism      { background: oklch(0.65 0.10 1
 section[data-theme="dark"] .tag--apologetics     { background: oklch(0.65 0.10 230); }
 section[data-theme="dark"] .tag--home            { background: oklch(0.66 0.08 80); }
 section[data-theme="dark"] .tag--abroad          { background: oklch(0.66 0.08 320); }
+
+.send-th { font-size: 1.3rem; }
+.send-truth { font-size: 1.7rem; line-height: 1.4; max-width: 760px; }
+.send-link { margin-top: 2rem; }
+.send-link a { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; }

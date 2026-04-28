@@ -124,6 +124,55 @@
           setActive(btn.dataset.src);
         }
       });
+    },
+
+    "greek-terms"(el, block) {
+      const head = document.createElement("div");
+      head.className = "teach-head";
+      head.innerHTML = `
+        <div class="eyebrow">GREEK</div>
+        <h2 class="title">${block.title}</h2>
+        ${block.blurb ? `<p class="muted">${block.blurb}</p>` : ""}
+      `;
+      el.appendChild(head);
+
+      const grid = document.createElement("div");
+      grid.className = "greek-grid";
+      grid.innerHTML = block.terms.map((t, i) => `
+        <button class="greek-chip" data-i="${i}" aria-expanded="false">
+          <div class="gk-greek greek">${t.greek}</div>
+          <div class="gk-gloss">${t.gloss}</div>
+        </button>
+      `).join("");
+      el.appendChild(grid);
+
+      const detail = document.createElement("div");
+      detail.className = "greek-detail";
+      detail.hidden = true;
+      el.appendChild(detail);
+
+      let activeIdx = null;
+      grid.addEventListener("click", (e) => {
+        const btn = e.target.closest(".greek-chip");
+        if (!btn) return;
+        const i = Number(btn.dataset.i);
+        if (activeIdx === i) {
+          activeIdx = null;
+          detail.hidden = true;
+          $$(".greek-chip", el).forEach(c => c.setAttribute("aria-expanded", "false"));
+          return;
+        }
+        activeIdx = i;
+        const t = block.terms[i];
+        $$(".greek-chip", el).forEach(c => c.setAttribute("aria-expanded", c.dataset.i === String(i) ? "true" : "false"));
+        detail.hidden = false;
+        detail.innerHTML = `
+          <div class="gd-greek greek">${t.greek}</div>
+          <div class="gd-gloss"><em>${t.gloss}</em> · <span class="muted">${t.ref}</span></div>
+          <div class="gd-note">${t.note}</div>
+          <div class="gd-cue">${t.cue}</div>
+        `;
+      });
     }
   };
 

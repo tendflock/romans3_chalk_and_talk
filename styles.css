@@ -301,3 +301,38 @@ section > * { max-width: var(--content-max); margin-left: auto; margin-right: au
   background: var(--src-bg, var(--highlight-bg));
   color: var(--ink-body);
 }
+
+.greek-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+.greek-chip {
+  font: inherit; cursor: pointer;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  padding: 0.7rem 0.9rem;
+  border-radius: 3px;
+  text-align: left;
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+.greek-chip:hover { border-color: var(--accent); }
+.greek-chip[aria-expanded="true"] {
+  background: var(--ink-body);
+  color: oklch(0.95 0.02 80);
+  border-color: var(--ink-body);
+}
+.greek-chip[aria-expanded="true"] .gk-gloss { color: oklch(0.85 0.04 80); }
+.gk-greek { font-size: 1.15rem; line-height: 1.2; margin-bottom: 0.2rem; }
+.gk-gloss { font-size: 0.82rem; font-style: italic; color: var(--ink-muted); }
+
+.greek-detail {
+  background: var(--ink-body); color: oklch(0.95 0.02 80);
+  padding: 1.4rem 1.6rem;
+  border-radius: 3px;
+}
+.gd-greek { font-size: 1.6rem; margin-bottom: 0.3rem; }
+.gd-gloss { font-size: 1rem; margin-bottom: 0.7rem; color: oklch(0.85 0.04 80); }
+.gd-note { font-size: 0.95rem; margin-bottom: 0.6rem; }
+.gd-cue { font-size: 0.88rem; font-style: italic; color: oklch(0.80 0.04 80); }

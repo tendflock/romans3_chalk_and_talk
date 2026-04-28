@@ -51,7 +51,81 @@
   }
 
   // Renderer dispatch — populated in later tasks
-  const teachRenderers = {};
+  const teachRenderers = {
+    catena(el, block) {
+      const sources = block.sources;
+      const phrases = block.phrases;
+
+      const head = document.createElement("div");
+      head.className = "teach-head";
+      head.innerHTML = `
+        <div class="eyebrow">CATENA</div>
+        <h2 class="title">${block.title}</h2>
+        ${block.blurb ? `<p class="muted">${block.blurb}</p>` : ""}
+      `;
+      el.appendChild(head);
+
+      const chips = document.createElement("div");
+      chips.className = "catena-chips";
+      chips.innerHTML = sources.map(s => `
+        <button class="catena-chip" data-src="${s.id}"
+                style="background: oklch(0.50 0.13 ${s.hue}); color: #fff;">
+          <span class="chip-label">${s.label}</span>
+          <span class="chip-ref">${s.ref}</span>
+        </button>
+      `).join("");
+      el.appendChild(chips);
+
+      const svgWrap = document.createElement("div");
+      svgWrap.className = "catena-svg-wrap";
+      svgWrap.innerHTML = `
+        <svg class="catena-svg" viewBox="0 0 600 140" preserveAspectRatio="none">
+          ${sources.map((s, i) => {
+            const x = 60 + i * (480 / (sources.length - 1));
+            return `<path class="catena-curve" data-src="${s.id}"
+              d="M ${x} 10 Q ${x} 80 ${(x + 300) / 2} 130"
+              stroke="oklch(0.50 0.13 ${s.hue})" fill="none" stroke-width="2.5" opacity="0.35"/>`;
+          }).join("")}
+          <line x1="40" y1="130" x2="560" y2="130" stroke="#222" stroke-width="2"/>
+        </svg>
+      `;
+      el.appendChild(svgWrap);
+
+      const verses = document.createElement("ol");
+      verses.className = "catena-verses";
+      verses.innerHTML = phrases.map(p => {
+        const src = sources.find(s => s.id === p.sourceId);
+        return `
+          <li class="catena-line" data-src="${p.sourceId}"
+              style="--src-bg: oklch(0.92 0.04 ${src ? src.hue : 0});">
+            <span class="v">${p.ref}</span>
+            <span class="t">${p.text}</span>
+          </li>
+        `;
+      }).join("");
+      el.appendChild(verses);
+
+      let activeSrc = null;
+      function setActive(srcId) {
+        activeSrc = srcId;
+        $$(".catena-chip", el).forEach(c => c.dataset.active = (c.dataset.src === srcId) ? "true" : "false");
+        $$(".catena-curve", el).forEach(c => c.style.opacity = (c.dataset.src === srcId) ? "1" : "0.15");
+        $$(".catena-line", el).forEach(line => line.dataset.active = (line.dataset.src === srcId) ? "true" : "false");
+      }
+      chips.addEventListener("click", (e) => {
+        const btn = e.target.closest(".catena-chip");
+        if (!btn) return;
+        if (activeSrc === btn.dataset.src) {
+          activeSrc = null;
+          $$(".catena-chip", el).forEach(c => c.dataset.active = "false");
+          $$(".catena-curve", el).forEach(c => c.style.opacity = "0.35");
+          $$(".catena-line", el).forEach(line => line.dataset.active = "false");
+        } else {
+          setActive(btn.dataset.src);
+        }
+      });
+    }
+  };
 
   function renderTeach() {
     const mount = $("#teach-blocks");

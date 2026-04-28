@@ -231,6 +231,49 @@
         note.hidden = false;
         note.innerHTML = `<strong>${n.ref}</strong> · ${n.note}`;
       });
+    },
+
+    "body-parts"(el, block) {
+      const head = document.createElement("div");
+      head.className = "teach-head";
+      head.innerHTML = `
+        <div class="eyebrow">BODY-PARTS</div>
+        <h2 class="title">${block.title}</h2>
+        ${block.blurb ? `<p class="muted">${block.blurb}</p>` : ""}
+      `;
+      el.appendChild(head);
+
+      const list = document.createElement("ol");
+      list.className = "body-mosaic";
+      list.innerHTML = block.phrases.map((p, i) => {
+        const isClimax = !!p.climax;
+        const bg = isClimax ? null : `oklch(0.92 0.05 ${p.hue})`;
+        return `
+          <li class="bp-line${isClimax ? " climax" : ""}"
+              data-i="${i}"
+              ${bg ? `style="--bp-bg: ${bg};"` : ""}>
+            <span class="bp-text">${p.english}</span>
+            <span class="bp-meta">— <span class="bp-part">${p.part}</span> · ${p.image} <span class="bp-ref">(${p.ref})</span></span>
+          </li>
+        `;
+      }).join("");
+      el.appendChild(list);
+
+      const climaxIdx = block.phrases.findIndex(p => p.climax);
+      let activeIdx = climaxIdx >= 0 ? climaxIdx : 0;
+      function paint() {
+        $$(".bp-line", el).forEach(line => {
+          line.dataset.active = String(Number(line.dataset.i) === activeIdx);
+        });
+      }
+      paint();
+
+      list.addEventListener("click", (e) => {
+        const li = e.target.closest(".bp-line");
+        if (!li) return;
+        activeIdx = Number(li.dataset.i);
+        paint();
+      });
     }
   };
 

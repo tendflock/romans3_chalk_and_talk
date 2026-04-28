@@ -488,3 +488,15 @@ section[data-theme="dark"] .tag--abroad          { background: oklch(0.66 0.08 3
   padding: 1px 6px; border-radius: 2px; font-family: var(--font-mono); font-size: 0.85em;
   margin-right: 0.3rem;
 }
+
+@media (max-width: 768px) {
+  :root { --content-pad-x: 1.2rem; --section-pad-y: 2.5rem; }
+  .hero { padding-top: 2rem; padding-bottom: 2.5rem; }
+  .hero-inner .title { font-size: 2rem; }
+  .hero-inner .subtitle { font-size: 1.1rem; }
+  .greek-grid { grid-template-columns: 1fr 1fr; }
+  .court-chain { flex-direction: column; align-items: stretch; }
+  .court-arrow { transform: rotate(90deg); }
+  .slide .question { font-size: 1.4rem; }
+  .send-truth { font-size: 1.3rem; }
+}

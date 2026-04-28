@@ -303,7 +303,51 @@
     state.revealedBlanks.add(btn.dataset.blankId);
   }
 
-  function renderEquip() { /* Task 12 */ }
+  function renderEquip() {
+    const mount = $("#equip-panel");
+    if (!mount || !D || !D.equip) return;
+    const eq = D.equip;
+
+    const bigIdeaMap = blanksToMap(eq.bigIdea.blanks);
+    const bigIdeaHtml = renderBlankTemplate(eq.bigIdea.template, bigIdeaMap, "bi");
+
+    const moveCards = eq.movements.map((mv, i) => {
+      const nameMap = { a: { answer: mv.nameBlank.answer } };
+      const nameHtml = renderBlankTemplate(mv.nameTemplate, nameMap, `mv${i}-name`);
+      const christMap = blanksToMap(mv.christ.blanks);
+      const christHtml = renderBlankTemplate(mv.christ.template, christMap, `mv${i}-ch`);
+      return `
+        <article class="eq-card">
+          <div class="eq-card-roman">${mv.roman}</div>
+          <div class="eq-card-name">${nameHtml}</div>
+          <div class="eq-card-ref">${mv.ref}</div>
+          <div class="eq-card-summary">${mv.summary}</div>
+          <div class="eq-card-christ"><em>${christHtml}</em></div>
+        </article>
+      `;
+    }).join("");
+
+    const tw = eq.thisWeek;
+    const twHtml = renderBlankTemplate(tw.template, blanksToMap(tw.blanks), "tw");
+
+    mount.innerHTML = `
+      <div class="eyebrow">EQUIP</div>
+      <p class="eq-bigidea">${bigIdeaHtml}</p>
+      <div class="eq-cards">${moveCards}</div>
+      <p class="eq-thisweek"><strong class="eyebrow eyebrow-inline">THIS WEEK</strong> · ${twHtml}</p>
+      <div class="eq-actions">
+        <button type="button" class="reveal-all" id="equip-reveal-all">Reveal all <kbd>r</kbd></button>
+      </div>
+    `;
+
+    mount.addEventListener("click", (e) => {
+      const blank = e.target.closest(".blank");
+      if (blank) { fillBlank(blank); return; }
+      if (e.target.closest("#equip-reveal-all")) {
+        $$(".blank", mount).forEach(b => fillBlank(b));
+      }
+    });
+  }
   function renderApply() { /* Task 13 */ }
   function renderMission() { /* Task 13 */ }
   function renderSendOut() { /* Task 14 */ }

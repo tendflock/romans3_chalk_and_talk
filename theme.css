@@ -23,10 +23,12 @@ section[data-theme="dark"] .section-divider {
 }
 
 section[data-theme="dark"] .blank {
-  color: oklch(0.45 0.02 80);
-  border-bottom-color: oklch(0.45 0.02 80);
+  color: oklch(0.65 0.03 80);
+  border-bottom-color: oklch(0.65 0.03 80);
+  background: transparent;
 }
 section[data-theme="dark"] .blank.filled {
   color: var(--dark-eyebrow);
   border-bottom-color: var(--dark-eyebrow);
+  background: transparent;
 }

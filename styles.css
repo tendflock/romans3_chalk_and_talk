@@ -171,16 +171,20 @@ section > * { max-width: var(--content-max); margin-left: auto; margin-right: au
   display: inline-block;
   min-width: 4.5rem;
   padding: 0 0.5rem;
+  background: transparent;
+  border: 0;
   border-bottom: 2px solid currentColor;
   cursor: pointer;
   color: var(--ink-faint);
   text-align: center;
+  font: inherit;
   font-style: normal;
 }
 .blank.filled {
   color: var(--accent);
   font-weight: 600;
   border-bottom-color: var(--accent);
+  background: transparent;
 }
 
 .kbd-help {

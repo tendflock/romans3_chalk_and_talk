@@ -39,13 +39,9 @@
     const m = D.meta;
     el.innerHTML = `
       <div class="hero-inner reveal">
-        <div class="eyebrow">${m.passage} · TEAM</div>
         <h1 class="title">${m.passage}</h1>
         <p class="subtitle">${m.burden}</p>
         <p class="muted">${m.takeHome}</p>
-        <div class="roadmap">
-          <span>Teach</span><span>Equip</span><span>Apply</span><span>Mission</span>
-        </div>
       </div>
     `;
   }
@@ -130,7 +126,6 @@
       const head = document.createElement("div");
       head.className = "teach-head";
       head.innerHTML = `
-        <div class="eyebrow">GREEK</div>
         <h2 class="title">${block.title}</h2>
         ${block.blurb ? `<p class="muted">${block.blurb}</p>` : ""}
       `;
@@ -360,13 +355,11 @@
     if (!mount || !items) return;
     const total = items.length;
     mount.innerHTML = items.map((q, i) => {
-      const tags = (q.tags || []).map(t => `<span class="tag tag--${t}">${t}</span>`).join("");
       const dots = items.map((_, k) => `<span class="dot ${k === i ? "active" : ""}"></span>`).join("");
       return `
         <article class="slide reveal" data-i="${i}">
-          <div class="eyebrow">${label} · QUESTION ${i + 1} OF ${total}</div>
+          <div class="eyebrow">${label} · ${i + 1} of ${total}</div>
           <p class="question">${escapeHtml(q.question)}</p>
-          <div class="tags">${tags}</div>
           <div class="pagination">${dots}</div>
         </article>
       `;

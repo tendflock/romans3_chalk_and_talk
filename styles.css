@@ -239,3 +239,17 @@ section > * { max-width: var(--content-max); margin-left: auto; margin-right: au
   opacity: 0.5;
 }
 .slide .pagination .dot.active { background: var(--accent); opacity: 1; }
+
+.hero-inner { text-align: left; }
+.hero-inner .roadmap {
+  display: inline-flex; gap: 1.4rem;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  margin-top: 2rem;
+  padding: 0.8rem 1.2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 3px;
+}
+.hero-inner .roadmap span:not(:last-child)::after { content: "·"; margin-left: 1.4rem; color: var(--ink-faint); }

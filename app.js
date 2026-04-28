@@ -83,8 +83,59 @@
   function renderApply() { /* Task 13 */ }
   function renderMission() { /* Task 13 */ }
   function renderSendOut() { /* Task 14 */ }
-  function renderRail() { /* Task 7 */ }
-  function setupRailObserver() { /* Task 7 */ }
+  function renderRail() {
+    const rail = $("#rail");
+    if (!rail) return;
+    const stops = [
+      { id: "hero",      letter: "·" },
+      { id: "teach",     letter: "T" },
+      { id: "equip",     letter: "E" },
+      { id: "apply",     letter: "A" },
+      { id: "mission",   letter: "M" },
+      { id: "send-out",  letter: "·" }
+    ];
+    rail.innerHTML = stops.map(s =>
+      `<button class="rail-letter" data-target="${s.id}" data-state="upcoming"
+               aria-label="Jump to ${s.id}">${s.letter}</button>`
+    ).join("");
+    rail.addEventListener("click", (e) => {
+      const btn = e.target.closest(".rail-letter");
+      if (!btn) return;
+      const target = document.getElementById(btn.dataset.target);
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  function setupRailObserver() {
+    const stops = ["hero", "teach", "equip", "apply", "mission", "send-out"];
+    const sections = stops.map(id => document.getElementById(id)).filter(Boolean);
+    if (!sections.length) return;
+
+    let active = "hero";
+    function paint() {
+      $$(".rail-letter").forEach(btn => {
+        const t = btn.dataset.target;
+        const tIdx = stops.indexOf(t);
+        const aIdx = stops.indexOf(active);
+        if (tIdx < aIdx) btn.dataset.state = "passed";
+        else if (tIdx === aIdx) btn.dataset.state = "active";
+        else btn.dataset.state = "upcoming";
+      });
+    }
+    paint();
+
+    const obs = new IntersectionObserver((entries) => {
+      const visible = entries.filter(e => e.isIntersecting);
+      if (visible.length) {
+        visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        active = visible[0].target.id;
+        state.activeSection = active;
+        paint();
+      }
+    }, { rootMargin: "-30% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75] });
+
+    sections.forEach(s => obs.observe(s));
+  }
   function setupKeyboard() { /* Task 15 */ }
 
   function setupReveal() {

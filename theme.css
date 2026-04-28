@@ -1,0 +1,32 @@
+/* Per-section themes. Hero/Teach/Apply/Send-out are light;
+ * Equip/Mission are dark. */
+
+section[data-theme="dark"] {
+  background: var(--dark-bg-page);
+  color: var(--dark-ink-body);
+  --bg-card: oklch(0.18 0.01 80);
+  --border-card: var(--dark-border);
+  --ink-body: var(--dark-ink-body);
+  --ink-muted: var(--dark-ink-muted);
+  --ink-faint: oklch(0.55 0.02 80);
+  --accent: var(--dark-eyebrow);
+  --highlight-bg: oklch(0.22 0.02 80);
+}
+
+section[data-theme="dark"] .title,
+section[data-theme="dark"] .subtitle {
+  color: var(--dark-ink-body);
+}
+
+section[data-theme="dark"] .section-divider {
+  color: var(--dark-eyebrow);
+}
+
+section[data-theme="dark"] .blank {
+  color: oklch(0.45 0.02 80);
+  border-bottom-color: oklch(0.45 0.02 80);
+}
+section[data-theme="dark"] .blank.filled {
+  color: var(--dark-eyebrow);
+  border-bottom-color: var(--dark-eyebrow);
+}

@@ -439,7 +439,98 @@
 
     sections.forEach(s => obs.observe(s));
   }
-  function setupKeyboard() { /* Task 15 */ }
+  function setupKeyboard() {
+    const sectionIds = ["hero", "teach", "equip", "apply", "mission", "send-out"];
+
+    function scrollSlide(dir) {
+      const sec = state.activeSection;
+      if (sec !== "apply" && sec !== "mission") return false;
+      const mountSel = sec === "apply" ? "#apply-slides" : "#mission-slides";
+      const slides = $$(`${mountSel} > .slide`);
+      if (!slides.length) return false;
+      const viewMid = window.scrollY + window.innerHeight / 2;
+      let curIdx = 0;
+      slides.forEach((s, i) => {
+        const r = s.getBoundingClientRect();
+        const top = window.scrollY + r.top;
+        if (top < viewMid) curIdx = i;
+      });
+      const next = Math.max(0, Math.min(slides.length - 1, curIdx + dir));
+      slides[next].scrollIntoView({ behavior: "smooth", block: "start" });
+      return true;
+    }
+
+    function jump(idx) {
+      const id = sectionIds[idx];
+      const t = id ? document.getElementById(id) : null;
+      if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if (e.target.closest("input, textarea, [contenteditable]")) return;
+      switch (e.key) {
+        case "ArrowDown":
+        case " ":
+        case "PageDown":
+          if (scrollSlide(+1)) e.preventDefault();
+          break;
+        case "ArrowUp":
+        case "PageUp":
+          if (scrollSlide(-1)) e.preventDefault();
+          break;
+        case "1": jump(1); e.preventDefault(); break;
+        case "2": jump(2); e.preventDefault(); break;
+        case "3": jump(3); e.preventDefault(); break;
+        case "4": jump(4); e.preventDefault(); break;
+        case "Home": jump(0); e.preventDefault(); break;
+        case "End":  jump(5); e.preventDefault(); break;
+        case "r":
+          if (state.activeSection === "equip") {
+            $$(".blank").forEach(b => fillBlank(b));
+            e.preventDefault();
+          }
+          break;
+        case "f":
+          if (document.fullscreenElement) document.exitFullscreen();
+          else document.documentElement.requestFullscreen().catch(() => {});
+          e.preventDefault();
+          break;
+        case "?":
+          toggleKbdHelp();
+          e.preventDefault();
+          break;
+        case "Escape":
+          if (document.fullscreenElement) document.exitFullscreen();
+          $("#kbd-help").hidden = true;
+          break;
+      }
+    });
+  }
+
+  function toggleKbdHelp() {
+    const el = $("#kbd-help");
+    if (!el) return;
+    if (el.hidden) {
+      el.hidden = false;
+      el.innerHTML = `
+        <div class="kbd-help-card">
+          <h3>Keyboard</h3>
+          <ul>
+            <li><kbd>↓</kbd>/<kbd>Space</kbd>/<kbd>PgDn</kbd> — advance</li>
+            <li><kbd>↑</kbd>/<kbd>PgUp</kbd> — back</li>
+            <li><kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>/<kbd>4</kbd> — Teach / Equip / Apply / Mission</li>
+            <li><kbd>Home</kbd>/<kbd>End</kbd> — top / bottom</li>
+            <li><kbd>r</kbd> — reveal all blanks (in Equip)</li>
+            <li><kbd>f</kbd> — fullscreen</li>
+            <li><kbd>Esc</kbd> — exit fullscreen / close help</li>
+          </ul>
+        </div>
+      `;
+      el.addEventListener("click", () => { el.hidden = true; }, { once: true });
+    } else {
+      el.hidden = true;
+    }
+  }
 
   function setupReveal() {
     const obs = new IntersectionObserver(

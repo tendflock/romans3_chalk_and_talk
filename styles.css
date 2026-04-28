@@ -479,3 +479,12 @@ section[data-theme="dark"] .tag--abroad          { background: oklch(0.66 0.08 3
 .send-truth { font-size: 1.7rem; line-height: 1.4; max-width: 760px; }
 .send-link { margin-top: 2rem; }
 .send-link a { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; }
+
+.kbd-help-card { font-size: 0.95rem; }
+.kbd-help-card ul { list-style: none; padding: 0; margin: 0.6rem 0 0; }
+.kbd-help-card li { margin: 0.4rem 0; }
+.kbd-help-card kbd {
+  background: var(--ink-body); color: oklch(0.95 0.02 80);
+  padding: 1px 6px; border-radius: 2px; font-family: var(--font-mono); font-size: 0.85em;
+  margin-right: 0.3rem;
+}
